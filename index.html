@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Metas Mensais</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fce4ec; /* Fundo rosa claro */
+            border-radius: 20px; /* Ornamentos arredondados nos cantos */
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        #good-luck-message,
+        #developer-info {
+            display: none;
+        }
+
+        #good-luck-message {
+            font-weight: bold;
+            font-size: 1.5em; /* Tamanho maior */
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #developer-info {
+            font-weight: bold;
+            font-size: 1em; /* Tamanho menor */
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            border-radius: 10px; /* Ornamentos arredondados */
+        }
+
+        button {
+            width: 100%;
+            padding: 8px;
+            font-size: 1em;
+            background-color: #000; /* Fundo preto */
+            color: #ff4081; /* Texto rosa escuro */
+            border: none;
+            cursor: pointer;
+            border-radius: 10px; /* Ornamentos arredondados */
+            font-weight: bold; /* Texto em negrito */
+        }
+
+        button:hover {
+            background-color: #333; /* Fundo preto escuro no hover */
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Metas Mensais para CamGirls de Sucesso!!</h1>
+    <label for="monthly-income">Quanto você deseja ganhar no mês (em R$)?</label>
+    <input type="text" id="monthly-income" onkeypress="handleKeyPress(event)" placeholder="Insira o valor aqui">
+    <button onclick="calculate()">Calcular</button>
+
+    <h2>Resultado:</h2>
+    <p id="daily-income"></p>
+    <p id="monthly-total"></p>
+    <p id="annual-total"></p>
+
+    <!-- Boa Sorte -->
+    <p id="good-luck-message">Boa Sorte!</p>
+
+    <!-- Informações do Desenvolvedor -->
+    <p id="developer-info">Desenvolvido por: Costa - Assessor de Alt Models. Contato para ajuda: (15) 98107-4147</p>
+
+    <script>
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                calculate();
+            }
+        }
+
+        function calculate() {
+            var monthlyIncomeText = document.getElementById("monthly-income").value;
+            if (!monthlyIncomeText || isNaN(parseFloat(monthlyIncomeText.replace(",", ".")))) {
+                alert("Por favor, insira um valor válido para o ganho mensal.");
+                return;
+            }
+
+            var monthlyIncome = parseFloat(monthlyIncomeText.replace(",", "."));
+            var daysInMonth = 30; // Assumindo um mês com 30 dias
+            var daysInYear = 365; // Assumindo um ano com 365 dias
+            
+            var dailyIncome = monthlyIncome / daysInMonth;
+            var monthlyTotal = monthlyIncome;
+            var annualTotal = dailyIncome * daysInYear;
+
+            var formatter = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            document.getElementById("daily-income").innerText = "Você precisa fazer " + formatter.format(dailyIncome) + " por dia para atingir o valor desejado no mês.";
+            document.getElementById("monthly-total").innerText = "Se você atingir o valor desejado, seu ganho total no mês será de " + formatter.format(monthlyTotal) + ".";
+            document.getElementById("annual-total").innerText = "Se você continuar ganhando " + formatter.format(dailyIncome) + " por dia durante o ano todo, seu ganho total anual será de " + formatter.format(annualTotal) + ".";
+            
+            // Exibição gradual da mensagem de Boa Sorte e informações do desenvolvedor
+            var goodLuckMessage = document.getElementById("good-luck-message");
+            var developerInfo = document.getElementById("developer-info");
+
+            goodLuckMessage.style.display = "block";
+            fadeIn(goodLuckMessage);
+
+            developerInfo.style.display = "block";
+            fadeIn(developerInfo);
+        }
+
+        function fadeIn(element) {
+            var opacity = 0;
+            var intervalId = setInterval(function() {
+                if (opacity < 1) {
+                    opacity += 0.1;
+                    element.style.opacity = opacity;
+                } else {
+                    clearInterval(intervalId);
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
